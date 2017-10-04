@@ -1,6 +1,6 @@
 {
-  "name": "react-native",
-  "version": "0.43.3",
+  "name": "react-native-yoco-ext",
+  "version": "react-native-yoco-ext-0.43.4-rc1",
   "description": "A framework for building native apps using React",
   "license": "BSD-3-Clause",
   "repository": {
