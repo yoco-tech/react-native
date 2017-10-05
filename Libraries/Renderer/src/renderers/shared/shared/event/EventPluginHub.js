@@ -138,7 +138,8 @@ var EventPluginHub = {
         return null;
       }
     } else {
-      if (typeof inst._currentElement === 'string') {
+      const currentElement = inst._currentElement;
+      if (typeof currentElement === 'string' || typeof currentElement === 'number') {
         // Text node, let it bubble through.
         return null;
       }
