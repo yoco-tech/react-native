@@ -1,11 +1,11 @@
 {
-  "name": "react-native",
-  "version": "0.43.6",
+  "name": "@yoco-tech/react-native",
+  "version": "0.43.7",
   "description": "A framework for building native apps using React",
   "license": "BSD-3-Clause",
   "repository": {
-    "type": "git",
-    "url": "git@github.com:yoco-tech/react-native.git"
+    "type": "npm",
+    "url": "https://yoco-npm-register.herokuapp.com"
   },
   "engines": {
     "node": ">=4"
