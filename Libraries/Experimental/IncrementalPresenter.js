@@ -1,19 +1,21 @@
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  *
- * @providesModule IncrementalPresenter
+ * @format
  * @flow
  */
+
 'use strict';
 
 const IncrementalGroup = require('IncrementalGroup');
 const React = require('React');
+const PropTypes = require('prop-types');
 const View = require('View');
+
+const ViewPropTypes = require('ViewPropTypes');
 
 import type {Context} from 'Incremental';
 
@@ -24,7 +26,7 @@ import type {Context} from 'Incremental';
  *
  * `<IncrementalPresenter>` can be used to group sets of `<Incremental>` renders
  * such that they are initially invisible and removed from layout until all
- * decendents have finished rendering, at which point they are drawn all at once
+ * descendants have finished rendering, at which point they are drawn all at once
  * so the UI doesn't jump around during the incremental rendering process.
  *
  * See Incremental.js for more info.
@@ -36,22 +38,21 @@ type Props = {
   onLayout?: (event: Object) => void,
   style?: mixed,
   children?: any,
-}
-class IncrementalPresenter extends React.Component {
-  props: Props;
+};
+class IncrementalPresenter extends React.Component<Props> {
   context: Context;
   _isDone: boolean;
 
   static propTypes = {
-    name: React.PropTypes.string,
-    disabled: React.PropTypes.bool,
-    onDone: React.PropTypes.func,
-    onLayout: React.PropTypes.func,
-    style: View.propTypes.style,
+    name: PropTypes.string,
+    disabled: PropTypes.bool,
+    onDone: PropTypes.func,
+    onLayout: PropTypes.func,
+    style: ViewPropTypes.style,
   };
   static contextTypes = {
-    incrementalGroup: React.PropTypes.object,
-    incrementalGroupEnabled: React.PropTypes.bool,
+    incrementalGroup: PropTypes.object,
+    incrementalGroupEnabled: PropTypes.bool,
   };
 
   constructor(props: Props, context: Context) {
@@ -61,19 +62,23 @@ class IncrementalPresenter extends React.Component {
   }
   onDone() {
     this._isDone = true;
-    if (this.props.disabled !== true &&
-        this.context.incrementalGroupEnabled !== false) {
+    if (
+      this.props.disabled !== true &&
+      this.context.incrementalGroupEnabled !== false
+    ) {
       // Avoid expensive re-renders and use setNativeProps
-      this.refs.view.setNativeProps(
-        {style: [this.props.style, {opacity: 1, position: 'relative'}]}
-      );
+      this.refs.view.setNativeProps({
+        style: [this.props.style, {opacity: 1, position: 'relative'}],
+      });
     }
     this.props.onDone && this.props.onDone();
   }
   render() {
-    if (this.props.disabled !== true &&
-        this.context.incrementalGroupEnabled !== false &&
-        !this._isDone) {
+    if (
+      this.props.disabled !== true &&
+      this.context.incrementalGroupEnabled !== false &&
+      !this._isDone
+    ) {
       var style = [this.props.style, {opacity: 0, position: 'absolute'}];
     } else {
       var style = this.props.style;

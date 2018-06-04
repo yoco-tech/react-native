@@ -1,29 +1,28 @@
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 package com.facebook.react.flat;
 
-import javax.annotation.Nullable;
-
-import com.facebook.yoga.YogaMeasureFunction;
-import com.facebook.react.uimanager.ReactStylesDiffMap;
 import com.facebook.react.uimanager.ReactShadowNode;
+import com.facebook.react.uimanager.ReactShadowNodeImpl;
+import com.facebook.react.uimanager.ReactStylesDiffMap;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.UIViewOperationQueue;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.ViewManager;
-import com.facebook.yoga.YogaValue;
+import com.facebook.yoga.YogaMeasureFunction;
 import com.facebook.yoga.YogaUnit;
+import com.facebook.yoga.YogaValue;
+import javax.annotation.Nullable;
 
 /* package */ final class NativeViewWrapper extends FlatShadowNode implements AndroidView {
 
-  @Nullable private final ReactShadowNode mReactShadowNode;
+  @Nullable
+  private final ReactShadowNode mReactShadowNode;
   private final boolean mNeedsCustomLayoutForChildren;
   private boolean mPaddingChanged = false;
   private boolean mForceMountGrandChildrenToView;
@@ -94,7 +93,7 @@ import com.facebook.yoga.YogaUnit;
   }
 
   @Override
-  public void addChildAt(ReactShadowNode child, int i) {
+  public void addChildAt(ReactShadowNodeImpl child, int i) {
     super.addChildAt(child, i);
     if (mForceMountGrandChildrenToView && child instanceof FlatShadowNode) {
       ((FlatShadowNode) child).forceMountChildrenToView();

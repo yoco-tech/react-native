@@ -1,34 +1,32 @@
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  *
- * @providesModule ToolbarAndroid
+ * @format
  */
 
 'use strict';
 
-var Image = require('Image');
-var NativeMethodsMixin = require('NativeMethodsMixin');
-var React = require('React');
-var ReactNativeViewAttributes = require('ReactNativeViewAttributes');
-var UIManager = require('UIManager');
-var View = require('View');
-var ColorPropType = require('ColorPropType');
+const Image = require('Image');
+const NativeMethodsMixin = require('NativeMethodsMixin');
+const React = require('React');
+const PropTypes = require('prop-types');
+const ReactNativeViewAttributes = require('ReactNativeViewAttributes');
+const UIManager = require('UIManager');
+const ViewPropTypes = require('ViewPropTypes');
+const ColorPropType = require('ColorPropType');
 
-var requireNativeComponent = require('requireNativeComponent');
-var resolveAssetSource = require('resolveAssetSource');
+const createReactClass = require('create-react-class');
+const requireNativeComponent = require('requireNativeComponent');
+const resolveAssetSource = require('resolveAssetSource');
 
-var ReactPropTypes = React.PropTypes;
-
-var optionalImageSource = ReactPropTypes.oneOfType([
+const optionalImageSource = PropTypes.oneOfType([
   Image.propTypes.source,
   // Image.propTypes.source is required but we want it to be optional, so we OR
   // it with a nullable propType.
-  ReactPropTypes.oneOf([]),
+  PropTypes.oneOf([]),
 ]);
 
 /**
@@ -66,11 +64,12 @@ var optionalImageSource = ReactPropTypes.oneOfType([
  *
  * [0]: https://developer.android.com/reference/android/support/v7/widget/Toolbar.html
  */
-var ToolbarAndroid = React.createClass({
+const ToolbarAndroid = createReactClass({
+  displayName: 'ToolbarAndroid',
   mixins: [NativeMethodsMixin],
 
   propTypes: {
-    ...View.propTypes,
+    ...ViewPropTypes,
     /**
      * Sets possible actions on the toolbar as part of the action menu. These are displayed as icons
      * or text on the right side of the widget. If they don't fit they are placed in an 'overflow'
@@ -84,12 +83,14 @@ var ToolbarAndroid = React.createClass({
      * `ifRoom` or `never`
      * * `showWithText`: boolean, whether to show text alongside the icon or not
      */
-    actions: ReactPropTypes.arrayOf(ReactPropTypes.shape({
-      title: ReactPropTypes.string.isRequired,
-      icon: optionalImageSource,
-      show: ReactPropTypes.oneOf(['always', 'ifRoom', 'never']),
-      showWithText: ReactPropTypes.bool
-    })),
+    actions: PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        icon: optionalImageSource,
+        show: PropTypes.oneOf(['always', 'ifRoom', 'never']),
+        showWithText: PropTypes.bool,
+      }),
+    ),
     /**
      * Sets the toolbar logo.
      */
@@ -102,11 +103,11 @@ var ToolbarAndroid = React.createClass({
      * Callback that is called when an action is selected. The only argument that is passed to the
      * callback is the position of the action in the actions array.
      */
-    onActionSelected: ReactPropTypes.func,
+    onActionSelected: PropTypes.func,
     /**
      * Callback called when the icon is selected.
      */
-    onIconClicked: ReactPropTypes.func,
+    onIconClicked: PropTypes.func,
     /**
      * Sets the overflow icon.
      */
@@ -114,7 +115,7 @@ var ToolbarAndroid = React.createClass({
     /**
      * Sets the toolbar subtitle.
      */
-    subtitle: ReactPropTypes.string,
+    subtitle: PropTypes.string,
     /**
      * Sets the toolbar subtitle color.
      */
@@ -122,7 +123,7 @@ var ToolbarAndroid = React.createClass({
     /**
      * Sets the toolbar title.
      */
-    title: ReactPropTypes.string,
+    title: PropTypes.string,
     /**
      * Sets the toolbar title color.
      */
@@ -135,7 +136,7 @@ var ToolbarAndroid = React.createClass({
      * these components and can be used to effectively align Toolbar content
      * along well-known gridlines.
      */
-    contentInsetStart: ReactPropTypes.number,
+    contentInsetStart: PropTypes.number,
     /**
      * Sets the content inset for the toolbar ending edge.
      *
@@ -144,7 +145,7 @@ var ToolbarAndroid = React.createClass({
      * these components and can be used to effectively align Toolbar content
      * along well-known gridlines.
      */
-    contentInsetEnd: ReactPropTypes.number,
+    contentInsetEnd: PropTypes.number,
     /**
      * Used to set the toolbar direction to RTL.
      * In addition to this property you need to add
@@ -155,15 +156,15 @@ var ToolbarAndroid = React.createClass({
      * `setLayoutDirection(LayoutDirection.RTL)` in your MainActivity
      * `onCreate` method.
      */
-    rtl: ReactPropTypes.bool,
+    rtl: PropTypes.bool,
     /**
      * Used to locate this view in end-to-end tests.
      */
-    testID: ReactPropTypes.string,
+    testID: PropTypes.string,
   },
 
   render: function() {
-    var nativeProps = {
+    const nativeProps = {
       ...this.props,
     };
     if (this.props.logo) {
@@ -176,16 +177,17 @@ var ToolbarAndroid = React.createClass({
       nativeProps.overflowIcon = resolveAssetSource(this.props.overflowIcon);
     }
     if (this.props.actions) {
-      var nativeActions = [];
-      for (var i = 0; i < this.props.actions.length; i++) {
-        var action = {
+      const nativeActions = [];
+      for (let i = 0; i < this.props.actions.length; i++) {
+        const action = {
           ...this.props.actions[i],
         };
         if (action.icon) {
           action.icon = resolveAssetSource(action.icon);
         }
         if (action.show) {
-          action.show = UIManager.ToolbarAndroid.Constants.ShowAsAction[action.show];
+          action.show =
+            UIManager.ToolbarAndroid.Constants.ShowAsAction[action.show];
         }
         nativeActions.push(action);
       }
@@ -196,7 +198,7 @@ var ToolbarAndroid = React.createClass({
   },
 
   _onSelect: function(event) {
-    var position = event.nativeEvent.position;
+    const position = event.nativeEvent.position;
     if (position === -1) {
       this.props.onIconClicked && this.props.onIconClicked();
     } else {
@@ -205,10 +207,10 @@ var ToolbarAndroid = React.createClass({
   },
 });
 
-var NativeToolbar = requireNativeComponent('ToolbarAndroid', ToolbarAndroid, {
+const NativeToolbar = requireNativeComponent('ToolbarAndroid', ToolbarAndroid, {
   nativeOnly: {
     nativeActions: true,
-  }
+  },
 });
 
 module.exports = ToolbarAndroid;

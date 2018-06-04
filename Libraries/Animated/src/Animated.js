@@ -1,27 +1,29 @@
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  *
- * @providesModule Animated
  * @flow
+ * @format
  */
+
 'use strict';
 
+const AnimatedImplementation = require('AnimatedImplementation');
+const Image = require('Image');
+const ScrollView = require('ScrollView');
+const Text = require('Text');
+const View = require('View');
 
-var AnimatedImplementation = require('AnimatedImplementation');
-var Image = require('Image');
-var Text = require('Text');
-var View = require('View');
-var ScrollView = require('ScrollView');
-
-module.exports = {
-  ...AnimatedImplementation,
+const Animated = {
   View: AnimatedImplementation.createAnimatedComponent(View),
   Text: AnimatedImplementation.createAnimatedComponent(Text),
   Image: AnimatedImplementation.createAnimatedComponent(Image),
   ScrollView: AnimatedImplementation.createAnimatedComponent(ScrollView),
 };
+
+Object.assign((Animated: Object), AnimatedImplementation);
+
+module.exports = ((Animated: any): typeof AnimatedImplementation &
+  typeof Animated);

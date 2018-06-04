@@ -1,4 +1,7 @@
-// Copyright 2004-present Facebook. All Rights Reserved.
+// Copyright (c) 2004-present, Facebook, Inc.
+
+// This source code is licensed under the MIT license found in the
+// LICENSE file in the root directory of this source tree.
 
 package com.facebook.react.module.model;
 
@@ -10,18 +13,18 @@ public class ReactModuleInfo {
 
   private final String mName;
   private final boolean mCanOverrideExistingModule;
-  private final boolean mSupportsWebWorkers;
   private final boolean mNeedsEagerInit;
+  private final boolean mHasConstants;
 
   public ReactModuleInfo(
     String name,
     boolean canOverrideExistingModule,
-    boolean supportsWebWorkers,
-    boolean needsEagerInit) {
+    boolean needsEagerInit,
+    boolean hasConstants) {
     mName = name;
     mCanOverrideExistingModule = canOverrideExistingModule;
-    mSupportsWebWorkers = supportsWebWorkers;
     mNeedsEagerInit = needsEagerInit;
+    mHasConstants = hasConstants;
   }
 
   public String name() {
@@ -32,11 +35,11 @@ public class ReactModuleInfo {
     return mCanOverrideExistingModule;
   }
 
-  public boolean supportsWebWorkers() {
-    return mSupportsWebWorkers;
-  }
-
   public boolean needsEagerInit() {
     return mNeedsEagerInit;
+  }
+
+  public boolean hasConstants() {
+    return mHasConstants;
   }
 }
