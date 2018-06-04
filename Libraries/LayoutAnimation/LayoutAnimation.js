@@ -1,24 +1,25 @@
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  *
- * @providesModule LayoutAnimation
  * @flow
+ * @format
  */
 'use strict';
 
-var UIManager = require('UIManager');
+const PropTypes = require('prop-types');
+const UIManager = require('UIManager');
 
-var keyMirror = require('fbjs/lib/keyMirror');
+/* $FlowFixMe(>=0.54.0 site=react_native_oss) This comment suppresses an error
+ * found when Flow v0.54 was deployed. To see the error delete this comment and
+ * run Flow. */
+const keyMirror = require('fbjs/lib/keyMirror');
 
-// $FlowFixMe checkPropTypes not yet landed to Flow
-var {checkPropTypes, PropTypes} = require('react');
+const {checkPropTypes} = PropTypes;
 
-var TypesEnum = {
+const TypesEnum = {
   spring: true,
   linear: true,
   easeInEaseOut: true,
@@ -26,24 +27,25 @@ var TypesEnum = {
   easeOut: true,
   keyboard: true,
 };
-var Types = keyMirror(TypesEnum);
+const Types = keyMirror(TypesEnum);
 
-var PropertiesEnum = {
+const PropertiesEnum = {
   opacity: true,
+  scaleX: true,
+  scaleY: true,
   scaleXY: true,
 };
-var Properties = keyMirror(PropertiesEnum);
+const Properties = keyMirror(PropertiesEnum);
 
-var animType = PropTypes.shape({
+const animType = PropTypes.shape({
   duration: PropTypes.number,
   delay: PropTypes.number,
   springDamping: PropTypes.number,
   initialVelocity: PropTypes.number,
-  type: PropTypes.oneOf(
-    Object.keys(Types)
-  ).isRequired,
-  property: PropTypes.oneOf( // Only applies to create/delete
-    Object.keys(Properties)
+  type: PropTypes.oneOf(Object.keys(Types)).isRequired,
+  property: PropTypes.oneOf(
+    // Only applies to create/delete
+    Object.keys(Properties),
   ),
 });
 
@@ -54,9 +56,9 @@ type Anim = {
   initialVelocity?: number,
   type?: $Enum<typeof TypesEnum>,
   property?: $Enum<typeof PropertiesEnum>,
-}
+};
 
-var configType = PropTypes.shape({
+const configType = PropTypes.shape({
   duration: PropTypes.number.isRequired,
   create: animType,
   update: animType,
@@ -68,6 +70,10 @@ type Config = {
   create?: Anim,
   update?: Anim,
   delete?: Anim,
+};
+
+function checkConfig(config: Config, location: string, name: string) {
+  checkPropTypes({config: configType}, {config}, location, name);
 }
 
 function checkConfig(config: Config, location: string, name: string) {
@@ -79,7 +85,11 @@ function configureNext(config: Config, onAnimationDidEnd?: Function) {
     checkConfig(config, 'config', 'LayoutAnimation.configureNext');
   }
   UIManager.configureNextLayoutAnimation(
-    config, onAnimationDidEnd || function() {}, function() { /* unused */ }
+    config,
+    onAnimationDidEnd || function() {},
+    function() {
+      /* unused */
+    },
   );
 }
 
@@ -100,13 +110,9 @@ function create(duration: number, type, creationProp): Config {
   };
 }
 
-var Presets = {
-  easeInEaseOut: create(
-    300, Types.easeInEaseOut, Properties.opacity
-  ),
-  linear: create(
-    500, Types.linear, Properties.opacity
-  ),
+const Presets = {
+  easeInEaseOut: create(300, Types.easeInEaseOut, Properties.opacity),
+  linear: create(500, Types.linear, Properties.opacity),
   spring: {
     duration: 700,
     create: {
@@ -134,7 +140,7 @@ var Presets = {
  *
  *     UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
  */
-var LayoutAnimation = {
+const LayoutAnimation = {
   /**
    * Schedules an animation to happen on the next layout.
    *
@@ -158,15 +164,9 @@ var LayoutAnimation = {
   Properties,
   checkConfig,
   Presets,
-  easeInEaseOut: configureNext.bind(
-    null, Presets.easeInEaseOut
-  ),
-  linear: configureNext.bind(
-    null, Presets.linear
-  ),
-  spring: configureNext.bind(
-    null, Presets.spring
-  ),
+  easeInEaseOut: configureNext.bind(null, Presets.easeInEaseOut),
+  linear: configureNext.bind(null, Presets.linear),
+  spring: configureNext.bind(null, Presets.spring),
 };
 
 module.exports = LayoutAnimation;

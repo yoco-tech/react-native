@@ -1,19 +1,53 @@
-Thanks for submitting a pull request! Please provide enough information so that others can review your pull request:
+Thank you for sending the PR! We appreciate you spending the time to work on these changes. 
+Help us understand your motivation by explaining why you decided to make this change.
 
-> **Unless you are a React Native release maintainer and cherry-picking an *existing* commit into a current release, ensure your pull request is targeting the `master` React Native branch.**
+<!-- 
+  Required: Write your motivation here.
+  If this PR fixes an issue, type "Fixes #issueNumber" to automatically close the issue when the PR is merged.
+-->
 
-Explain the **motivation** for making this change. What existing problem does the pull request solve?
+## Test Plan
 
-Prefer **small pull requests**. These are much easier to review and more likely to get merged. Make sure the PR does only one thing, otherwise please split it.
+<!-- 
+  Required: Write your test plan here. If you changed any code, please provide us with 
+  clear instructions on how you verified your changes work. Bonus points for screenshots and videos! 
+-->
 
-**Test plan (required)**
+## Related PRs
 
-Demonstrate the code is solid. Example: The exact commands you ran and their output, screenshots / videos if the pull request changes UI.
+<!-- 
+  Does this PR require a documentation change? 
+  Create a PR at https://github.com/facebook/react-native-website and add a link to it here.
+-->
 
-Make sure tests pass on both Travis and Circle CI.
+## Release Notes
 
-**Code formatting**
+<!-- 
+  Required. 
+  Help reviewers and the release process by writing your own release notes. See below for an example.
+-->
 
-Look around. Match the style of the rest of the codebase. See also the simple [style guide](https://github.com/facebook/react-native/blob/master/CONTRIBUTING.md#style-guide).
+[CATEGORY] [TYPE] [LOCATION] - Message
 
-For more info, see the ["Pull Requests" section of our "Contributing" guidelines](https://github.com/facebook/react-native/blob/master/CONTRIBUTING.md#pull-requests).
+<!--
+  **INTERNAL and MINOR tagged notes will not be included in the next version's final release notes.**
+
+    CATEGORY
+  [----------]      TYPE
+  [ CLI      ] [-------------]    LOCATION
+  [ DOCS     ] [ BREAKING    ] [-------------]
+  [ GENERAL  ] [ BUGFIX      ] [ {Component} ]
+  [ INTERNAL ] [ ENHANCEMENT ] [ {Filename}  ]
+  [ IOS      ] [ FEATURE     ] [ {Directory} ]   |-----------|
+  [ ANDROID  ] [ MINOR       ] [ {Framework} ] - | {Message} |
+  [----------] [-------------] [-------------]   |-----------|
+
+ EXAMPLES:
+
+ [IOS] [BREAKING] [FlatList] - Change a thing that breaks other things
+ [ANDROID] [BUGFIX] [TextInput] - Did a thing to TextInput
+ [CLI] [FEATURE] [local-cli/info/info.js] - CLI easier to do things with
+ [DOCS] [BUGFIX] [GettingStarted.md] - Accidentally a thing/word
+ [GENERAL] [ENHANCEMENT] [Yoga] - Added new yoga thing/position
+ [INTERNAL] [FEATURE] [./scripts] - Added thing to script that nobody will see
+-->
